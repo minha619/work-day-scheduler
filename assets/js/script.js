@@ -1,32 +1,7 @@
-// var currentDate = moment().format('MMMM Do YYYY');
-// var currentDay = moment().format('dddd');
-// var currentTime = moment().format('h:mm:ss a');
-// // var now = moment();
-
-
-// //current Day and time
-// var interval = setInterval(() => {
-//     var now = new Date();
-//     var momentNow = $("#currentDay").text(moment(now).format('MMMM Do YYYY ' + 'dddd '+ 'h:mm:ss a'));
-// }, interval);
-
-
-// var changeBackground = function(){
-//     var checkTime = momentNow
-//     if (checkTime === 9){
-//         $("#nineAm").addClass("present")
-//     }
-//     else if (checkTime < 9) {
-//         $("#nineAm").addClass("future")
-//     }
-//     else (checkTime > 9) 
-//         $("#nineAm").addClass("past");
-// };
-
-
-// document.getElementById('#currentDay').text(moment(now).format('MMMM Do YYYY ' + 'dddd '+ 'h:mm:ss a'));
-
 var now = new Date();
+document.querySelector('#currentDay').append(moment(now).format('MMMM Do YYYY ' + 'dddd ' + 'h:mm:ss a'))
+
+
 var rows = document.querySelectorAll('.row');
 for (var i = 0; i < rows.length; i++) {
 
@@ -43,7 +18,32 @@ for (var i = 0; i < rows.length; i++) {
     else {
         rows[i].querySelector('.textarea').classList.add('future');
     }
+
+    var key = time + "-note";
+    var value = localStorage.getItem(key);
+
+    //console.log(key, value)
+    if (value !== null){
+        rows[i].querySelector('.textarea').value = value
+    }
 }
 
-document.querySelector('#currentDay').append(moment(now).format('MMMM Do YYYY ' + 'dddd ' + 'h:mm:ss a'))
+
+var saveBtn = document.querySelectorAll('.saveBtn');
+    for (var i = 0; i < saveBtn.length; i++){
+        saveBtn[i].addEventListener('click', saveOnclick)
+        //console.log(saveBtn.length)
+
+    }
+
+function saveOnclick(event) {
+    var button = event.target;
+    var row = button.parentNode;
+    var time = row.querySelector('.hours').innerHTML
+
+    var key = time + "-note";
+    var value = row.querySelector('.textarea').value;
+
+    localStorage.setItem(key, value)
+}
 
