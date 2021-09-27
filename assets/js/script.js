@@ -1,5 +1,5 @@
 var now = new Date();
-document.querySelector('#currentDay').append(moment(now).format('MMMM Do YYYY ' + 'dddd ' + 'h:mm:ss a'))
+document.querySelector('#currentDay').append(moment(now).format('MMMM Do YYYY ' + 'dddd ' + 'h:mm a'))
 
 
 var rows = document.querySelectorAll('.row');
@@ -7,16 +7,20 @@ for (var i = 0; i < rows.length; i++) {
 
     var time = rows[i].querySelector('.hours').innerHTML
 
-    var currentTime = moment(time, "h hh:m mm a A").toDate();
-    if (currentTime.getTime() < now.getTime()) {
+    var currentTime = moment(time, "hh:mm A").toDate();
+    var endTime = moment(currentTime).add(59, 'minutes').toDate();
+
+
+    if (currentTime.getHours() < now.getHours()) {
         // $(rows[i]).find('.textarea').addClass("past");
         rows[i].querySelector('.textarea').classList.add('past');
     }
-    else if (currentTime.getTime() === now.getTime()) {
+    else if (endTime.getHours() === now.getHours() && endTime.getTime() >= now.getTime()) {
         rows[i].querySelector('.textarea').classList.add('present');
     }
     else {
         rows[i].querySelector('.textarea').classList.add('future');
+        //console.log('future')
     }
 
     var key = time + "-note";
